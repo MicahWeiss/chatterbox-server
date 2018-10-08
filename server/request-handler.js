@@ -11,7 +11,8 @@ this file and include it in basic-server.js so that it actually works.
 *Hint* Check out the node module documentation at http://nodejs.org/api/modules.html.
 
 **************************************************************/
-var requestHandler = function(request, response) {
+var requestHandler = function (request, response) {
+  //console.log(request);
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -31,7 +32,19 @@ var requestHandler = function(request, response) {
   );
 
   // The outgoing status.
-  var statusCode = 200; // GET is OKAY
+  let statusCode;
+  if (request.url === '/classes/messages') {
+    if (request.method === 'GET') {
+      statusCode = 200;
+    } else if (request.method === 'POST') {
+      statusCode = 201;
+    } else {
+      statusCode = 666;
+    }
+  } else {
+    statusCode = 404;
+  }
+  ;
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
@@ -40,11 +53,21 @@ var requestHandler = function(request, response) {
   //
   // You will need to change this if you are sending something
   // other than plain text, like JSON or HTML.
-  headers["Content-Type"] = "text/plain";
+  headers["Content-Type"] = "application/json";
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
+
+  if (statusCode === 200) { // handle GET request
+    let body = { results: [] };
+    //console.log('get req return', body);
+    response.end(JSON.stringify(body));
+  } else if (statusCode === 201) { // handle POST request
+    //let body = request.on('data')
+    //console.log('POST NOT IMPLEMENTED YET')
+  }
+
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
@@ -72,6 +95,5 @@ var defaultCorsHeaders = {
   "access-control-max-age": 10 // Seconds.
 };
 
-var exports = (module.exports = {}); //Added by Weiss and Ortega
-exports.requestHandler = requestHandler;
-//exports.defaultCorsHeaders = defaultCorsHeaders;
+
+module.exports.requestHandler = requestHandler

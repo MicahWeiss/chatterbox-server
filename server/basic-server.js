@@ -1,12 +1,19 @@
 /* Import node's http module: */
 var http = require("http");
-var handleRequest = require("./request-handler"); //Import added
-//console.log("handleRequest", handleRequest.requestHandler);
+var handleRequest = require("./request-handler.js");
+// var url = require("url");
+// var myURL = new url.parse('http://127.0.0.1:3000/chatterbox/classes/messages');
+// //console.log(myURL)
+// console.log(myURL.pathname, 'url pathname00')
+
+//Import added
+//console.log("handle00Request", handleRequest.requestHandler);
 // Every server needs to listen on a port with a unique number. The
 // standard port for HTTP servers is port 80, but that port is
 // normally already claimed by another server and/or not accessible
 // so we'll use a standard testing port like 3000, other common development
 // ports are 8080 and 1337.
+//console.log('imported', requestHandler)
 var port = 3000;
 
 // For now, since you're running this server on your local machine,
@@ -21,11 +28,8 @@ var ip = "127.0.0.1";
 //
 // After creating the server, we will tell it to listen on the given port and IP. */
 var server = http.createServer(handleRequest.requestHandler);
-
 console.log("Listening on http://" + ip + ":" + port);
-server.listen(port, ip /*() => {
-  console.log("server is up, boyos!");
-}*/);
+server.listen(port, ip);
 
 // To start this server, run:
 //
@@ -37,5 +41,4 @@ server.listen(port, ip /*() => {
 // browser.
 //
 // server.listen() will continue running as long as there is the
-// possibility of serving more requests. To stop your server, hit
-// Ctrl-C on the command line.
+// possibili  
